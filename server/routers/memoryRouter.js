@@ -1,66 +1,94 @@
-import express, { application } from 'express'
-import mongoose from 'mongoose'
-import Memory from '../db/memoryModel.js'
+import express, { application } from "express";
+import mongoose from "mongoose";
+import Memory from "../db/memoryModel.js";
 
-const router = express.Router()
+const router = express.Router();
 
-//Get all memories from db 
+//Get all memories from db
 
-router.get('/', async (req,res) => {
-    try{
-        const memories = await Memory.find()
+router.get("/", async (req, res) => {
+  try {
+    const memories = await Memory.find();
 
-        res.status(200).json(memories)
-
-    }catch(error) {
-        res.status(400).json({message: 'gg'})
-    }
-})
+    res.status(200).json(memories);
+  } catch (error) {
+    res.status(400).json({ message: "gg" });
+  }
+});
 
 //Get single memory from db
 
-router.get('/:id', async(req,res) => {
-    try {
-        const {id} = req.params
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id))
-        res.status(404).json({message: 'Memory id is not valid'})
+    if (!mongoose.Types.ObjectId.isValid(id))
+      res.status(404).json({ message: "Memory id is not valid" });
 
-        const memory = await Memory.findById(id)
-        if(!memory) return
+    const memory = await Memory.findById(id);
+    if (!memory) return;
 
-        res.status(200).json(memory)
-
-    }catch (error) {
-        res.status(404).json({message: 'memory not found'})
-    }
-})
+    res.status(200).json(memory);
+  } catch (error) {
+    res.status(404).json({ message: "memory not found" });
+  }
+});
 
 //Create a memory
 
-router.post('/', async (req, res) => {
-    try {
-      const memory = req.body
-  
-      const createdMemory = await Memory.create(memory)
-  
-      res.status(201).json(createdMemory)
-    } catch (error) {
-      console.log(error.message)
-      res.json({ message: 'Create memory failed' })
-    }
-  })
+router.post("/", async (req, res) => {
+  try {
+    const memory = req.body;
+
+    const createdMemory = await Memory.create(memory);
+
+    res.status(201).json(createdMemory);
+  } catch (error) {
+    console.log(error.message);
+    res.json({ message: "Create memory failed" });
+  }
+});
 
 //Update a memory
 
-router.put('/:id', async(req,res) => {
-    res.json({message: 'update a memory from db'})
-})
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      res.status(404).json({ message: "Memory id is not valid" });
+
+    const { title, content, creator, image } = req.body;
+
+    const updatedMemory = await Memory.findByIdAndUpdate(
+      id,
+      { title, content, creator, image, _id: id },
+      { new: true }
+    );
+
+    res.status(200).json(updatedMemory);
+  } catch (error) {
+    console.log(error);
+    res.json({message: 'Update failed'})
+  }
+});
 
 //Delete a memory
 
-router.delete('/:id', async(req,res) => {
-    res.json({message: 'delete a memory from db'})
-})
+router.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      res.status(404).json({ message: "Memory id is not valid" });
+
+      await Memory.findByIdAndDelete(id)
+
+      res.json({message: 'memory has been deleted'})
+    }catch (error) {
+        console.log(error)
+        res.json({message: 'Memory delete failed'})
+    }
+});
 
 export default router;
