@@ -12,7 +12,6 @@ router.get('/', async (req,res) => {
 
         res.status(200).json(memories)
 
-        res.json(memories)
     }catch(error) {
         res.status(400).json({message: 'gg'})
     }
