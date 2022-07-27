@@ -20,7 +20,6 @@ const memoSchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    
 })
 
 const Memory = mongoose.model('memo', memoSchema)
