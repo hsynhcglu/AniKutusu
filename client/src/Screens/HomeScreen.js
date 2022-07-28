@@ -1,12 +1,45 @@
-import React, {useState, useEffect} from 'react'
-import { fetchMemories } from '../axios/index.js'
+import React, { useState, useEffect } from "react";
+import { fetchMemories } from "../axios/index.js";
+import { Spinner, Col, Row } from "react-bootstrap";
+import Memory from '../components/Memory.js'
 
 const HomeScreen = () => {
-  return (
-    <div>
-        <h1>HomeScreen</h1>
-    </div>
-  )
-}
+  const [memories, setMemories] = useState([]);
 
-export default HomeScreen
+  useEffect(() => {
+    const getMemories = async () => {
+      const { data } = await fetchMemories();
+      console.log(data);
+      setMemories(data);
+    };
+    getMemories();
+  }, []);
+
+  return (
+    <>
+      <h1>En Güncel Anılar</h1>
+      {!memories.length ? (
+        <Spinner animation="border" />
+      ) : (
+        <Row>
+          {memories.map((memory) => {
+            return (
+              <Col
+              sm={12}
+              md={6}
+              lg={4}
+              xl={3}
+              className="m-auto"
+              key={memory._id}
+            >
+              <Memory memory={memory} />
+            </Col>
+            )
+          })}
+        </Row>
+      )}
+    </>
+  );
+};
+
+export default HomeScreen;

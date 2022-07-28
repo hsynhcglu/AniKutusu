@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, } from "react";
 import ReactFileBase64 from "react-file-base64";
 import { Form, Button } from "react-bootstrap";
-import * as api from "../axios/index.js";
-import { useNavigate  } from "react-router-dom";
+import { updateMemory, fetchMemory } from "../axios/index.js";
+import { useNavigate } from "react-router-dom";
 
-const SubmitMemory = () => {
+const UpdateMemory = ({id}) => {
   const [memoryData, setMemoryData] = useState({
     title: "",
     content: "",
@@ -12,7 +12,15 @@ const SubmitMemory = () => {
     image: "",
   });
 
-  const navigate = useNavigate()
+  useEffect(() => {
+    const getMemo = async () => {
+        const {data} = await fetchMemory(id)
+        setMemoryData(data)
+    }
+    getMemo()
+  }, [id])
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -20,12 +28,12 @@ const SubmitMemory = () => {
         onSubmit={(e) => {
           e.preventDefault();
 
-          api.createMemory(memoryData)
+          updateMemory(id, memoryData)
           navigate('/')
         }}
       >
         <Form.Group>
-          <h1>Bir anı yarat</h1>
+          <h1>Bir anıyı güncelle</h1>
         </Form.Group>
 
         <Form.Group>
@@ -33,6 +41,7 @@ const SubmitMemory = () => {
           <Form.Control
             name="title"
             type="text"
+            value={memoryData.title}
             onChange={(e) =>
               setMemoryData({ ...memoryData, title: e.target.value })
             }
@@ -44,6 +53,7 @@ const SubmitMemory = () => {
           <Form.Control
             name="author"
             type="text"
+            value={memoryData.creator}
             onChange={(e) =>
               setMemoryData({ ...memoryData, creator: e.target.value })
             }
@@ -56,6 +66,7 @@ const SubmitMemory = () => {
             name="content"
             type="text"
             as="textarea"
+            value={memoryData.content}
             rows={3}
             onChange={(e) =>
               setMemoryData({ ...memoryData, content: e.target.value })
@@ -67,6 +78,7 @@ const SubmitMemory = () => {
           <ReactFileBase64
             type="file"
             multiple={false}
+            value={memoryData.image}
             onDone={({ base64 }) => {
               setMemoryData({ ...memoryData, image: base64 });
             }}
@@ -81,4 +93,4 @@ const SubmitMemory = () => {
   );
 };
 
-export default SubmitMemory;
+export default UpdateMemory;
