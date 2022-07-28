@@ -9,6 +9,7 @@ dotenv.config()
 const app = express()
 
 app.use(express.json({ limit: '20mb' }))
+app.use(cors());
 
 app.use('/memories', memoryRouter)
 
