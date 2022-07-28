@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import ReactFileBase64 from "react-file-base64";
 import { Form, Button } from "react-bootstrap";
-import * as api from "../axios/index.js";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createMemory } from "../actions/MemoryActions.js";
 
 const SubmitMemory = () => {
   const [memoryData, setMemoryData] = useState({
@@ -12,7 +13,8 @@ const SubmitMemory = () => {
     image: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -20,8 +22,8 @@ const SubmitMemory = () => {
         onSubmit={(e) => {
           e.preventDefault();
 
-          api.createMemory(memoryData)
-          navigate('/')
+          dispatch(createMemory(memoryData))
+          navigate("/");
         }}
       >
         <Form.Group>

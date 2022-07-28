@@ -1,10 +1,13 @@
 import React, { useState, useEffect, } from "react";
 import ReactFileBase64 from "react-file-base64";
 import { Form, Button } from "react-bootstrap";
-import { updateMemory, fetchMemory } from "../axios/index.js";
+import { fetchMemory } from "../axios/index.js";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { updateMemory } from '../actions/MemoryActions.js'
 
 const UpdateMemory = ({id}) => {
+  const dispatch = useDispatch()
   const [memoryData, setMemoryData] = useState({
     title: "",
     content: "",
@@ -28,7 +31,7 @@ const UpdateMemory = ({id}) => {
         onSubmit={(e) => {
           e.preventDefault();
 
-          updateMemory(id, memoryData)
+          dispatch(updateMemory(id, memoryData))
           navigate('/')
         }}
       >
