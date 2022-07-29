@@ -15,8 +15,7 @@ import { Provider } from "react-redux";
 
 const reducer = combineReducers({
   memories: MemoriesReducer,
-})
-
+});
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 

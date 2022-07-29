@@ -1,13 +1,13 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect } from "react";
 import ReactFileBase64 from "react-file-base64";
 import { Form, Button } from "react-bootstrap";
 import { fetchMemory } from "../axios/index.js";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'
-import { updateMemory } from '../actions/MemoryActions.js'
+import { useDispatch } from "react-redux";
+import { updateMemory } from "../actions/MemoryActions.js";
 
-const UpdateMemory = ({id}) => {
-  const dispatch = useDispatch()
+const UpdateMemory = ({ id }) => {
+  const dispatch = useDispatch();
   const [memoryData, setMemoryData] = useState({
     title: "",
     content: "",
@@ -17,11 +17,11 @@ const UpdateMemory = ({id}) => {
 
   useEffect(() => {
     const getMemo = async () => {
-        const {data} = await fetchMemory(id)
-        setMemoryData(data)
-    }
-    getMemo()
-  }, [id])
+      const { data } = await fetchMemory(id);
+      setMemoryData(data);
+    };
+    getMemo();
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -31,8 +31,8 @@ const UpdateMemory = ({id}) => {
         onSubmit={(e) => {
           e.preventDefault();
 
-          dispatch(updateMemory(id, memoryData))
-          navigate('/')
+          dispatch(updateMemory(id, memoryData));
+          navigate("/");
         }}
       >
         <Form.Group>
