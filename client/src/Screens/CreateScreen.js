@@ -1,15 +1,15 @@
-import React from 'react'
-import { Container, } from 'react-bootstrap'
-import SubmitMemory from '../components/SubmitMemory'
+import React from "react";
+import { Container } from "react-bootstrap";
+import SubmitMemory from "../components/SubmitMemory";
 
 const CreateScreen = () => {
   return (
     <>
-        <Container>
-          <SubmitMemory />
-        </Container>
+      <Container>
+        <SubmitMemory />
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default CreateScreen
+export default CreateScreen;

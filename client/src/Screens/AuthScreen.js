@@ -79,9 +79,21 @@ const AuthScreen = () => {
                     placeholder="Şifrenizi Doğrulayın"
                   ></Form.Control>
                 </Form.Group>
-                <Button type="submit" className="mt-3" style={{width: '100%'}}>Kayıt Ol</Button>
-                <Form.Text as='large' className="text-center mt-2">
-                    Zaten bir hesabınız var mı? <span onClick={(e) => setLogin(!false)} style={{fontWeight: 'bold', cursor: 'pointer'}}>Giriş Yap</span>
+                <Button
+                  type="submit"
+                  className="mt-3"
+                  style={{ width: "100%" }}
+                >
+                  Kayıt Ol
+                </Button>
+                <Form.Text as="large" className="text-center mt-2">
+                  Zaten bir hesabınız var mı?{" "}
+                  <span
+                    onClick={(e) => setLogin(!false)}
+                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                  >
+                    Giriş Yap
+                  </span>
                 </Form.Text>
               </Form>
             )}
